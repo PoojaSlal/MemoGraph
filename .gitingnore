@@ -1,6 +1,10 @@
 node_modules/
 venv/
+
 __pycache__/
-PRD.docx
-WHAT.docx
+
 .env
+.DS_Store
+Thumbs.db
+*.log
+*.docx
