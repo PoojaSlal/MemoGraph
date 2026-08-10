@@ -15,11 +15,13 @@ class Settings(BaseSettings):
     qdrant_host: str
     qdrant_port: int
 
-    memgraph_host: str
-    memgraph_port: int
+    memgraph_uri: str = "bolt://localhost:7687"
+    memgraph_username: str = ""
+    memgraph_password: str = ""
 
-    redis_host: str
-    redis_port: int
+    # Redis
+    redis_host: str = "localhost"
+    redis_port: int = 6379
     redis_db: int = 0
 
     model_config = SettingsConfigDict(
