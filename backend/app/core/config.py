@@ -22,7 +22,9 @@ class Settings(BaseSettings):
     # Redis
     redis_host: str = "localhost"
     redis_port: int = 6379
-    redis_db: int = 0
+
+    redis_broker_url: str = "redis://localhost:6379/0"
+    redis_result_url: str = "redis://localhost:6379/1"
 
     model_config = SettingsConfigDict(
         env_file=".env",
