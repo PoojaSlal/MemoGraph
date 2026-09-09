@@ -1,0 +1,4 @@
+MemoGraph is a context-aware digital memory assistant.
+
+It stores source documents, extracts meaningful memories,
+and uses vector and graph databases for retrieval.
