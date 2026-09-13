@@ -1,0 +1,3 @@
+MemoGraph is a context-aware digital memory system.
+This is my first ingestion test.
+I am testing TXT file upload.

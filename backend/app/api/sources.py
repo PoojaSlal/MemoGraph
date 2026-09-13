@@ -1,12 +1,18 @@
 from hashlib import sha256
 
 from fastapi import APIRouter, File, HTTPException, UploadFile
+from sympy import content
 
 from app.repositories.jobs import create_job
 from app.repositories.sources import create_source
 from app.repositories.users import create_user
 from app.schemas.source import UploadSourceResponse
 from app.worker.tasks import ingest_source_task
+
+from pathlib import Path
+
+STORAGE_DIR = Path("storage")
+STORAGE_DIR.mkdir(exist_ok=True)
 
 router = APIRouter(prefix="/sources", tags=["Sources"])
 
@@ -29,6 +35,9 @@ async def upload_source(
 
     content = await file.read()
 
+    storage_path = STORAGE_DIR / filename
+    storage_path.write_bytes(content)
+
     if not content:
         raise HTTPException(
             status_code=400,
@@ -43,7 +52,10 @@ async def upload_source(
         source_type=SUPPORTED_TYPES[extension],
         file_hash=sha256(content).hexdigest(),
         file_size_bytes=len(content),
-        metadata={"original_filename": filename},
+        metadata={
+            "original_filename": filename,
+            "storage_path": str(storage_path),
+        }
     )
 
     job_id = create_job(
