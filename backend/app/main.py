@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 from app.api.health import router as health_router
 from app.core.logging import setup_logging
-
+from app.services.qdrant import ensure_collection
 
 setup_logging()
 
@@ -15,9 +15,12 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("MemoGraph API starting")
-    yield
-    logger.info("MemoGraph API shutting down")
 
+    ensure_collection()
+
+    yield
+
+    logger.info("MemoGraph API shutting down")
 
 app = FastAPI(
     title="MemoGraph API",
